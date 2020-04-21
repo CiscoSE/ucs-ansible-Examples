@@ -7,6 +7,6 @@ The latest ucssdk, and the latest imcsdk will be installed via PIP. The latest v
 
 From either folder, run the following command to make a docker container with Ansible configured for UCS:
 
-> docker build -t ansble/ucs:latest .
+> docker build -t ansible/ucs:latest .
 
 
