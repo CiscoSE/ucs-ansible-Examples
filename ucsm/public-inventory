@@ -1,0 +1,20 @@
+# Put variables here that apply to any groups you create below.
+# The GiveMeAName group has been provided, but you can have as 
+# many as you would like.
+[all:vars]
+iso_server=<PutAnIPHereForYourWebServer>
+ucsm_password=<YourPasswordForUCS>
+ucsm_user=<LogonNameForAnsibleToUse>
+
+[GiveMeAName]
+FirstUCSDomain     ucsm_host=<SomeIP>
+SecondUCSDomain    ucsm_host=<SomeOtherIP>
+
+#These are common variables for the above systems
+#The prefix should match the domain above.
+[GivMeAName:vars]
+# You can pick a different org, but need to ensure it is in dn format below.
+ucs_Org=org-root
+vmediaBladeDiagPolicyName=BladeDiagCD
+vmediaBladeDiagImagePath=/Directory/YouPutTheIsoIn/
+vmediaBladeDiagFileName=<NameOfTheDiagISO>
