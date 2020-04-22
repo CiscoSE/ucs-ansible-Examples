@@ -1,0 +1,8 @@
+---
+  - name: "Create Diagnostic Policy for Blades"
+    gather_facts: no
+    connection: local
+    hosts: FEDLABCore
+
+    tasks:
+    - include_tasks: tasks/task-BladeDiagPolicy.yaml

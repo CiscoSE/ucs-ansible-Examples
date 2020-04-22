@@ -1,0 +1,53 @@
+- name: Create Diagnostic Policy
+  ucs_managed_objects:
+    hostname: "{{ ucsm_host }}"
+    username: "{{ ucsm_user }}"
+    password: "{{ ucsm_password }}"
+    objects:
+    - module: ucsmsdk.mometa.diag.DiagRunPolicy
+      class: DiagRunPolicy
+      properties:
+        name: "Burn-in_Blades"
+        parent_mo_or_dn: "{{ ucs_Org }}"
+      children:
+      - module: ucsmsdk.mometa.diag.DiagMemoryTest
+        class: DiagMemoryTest
+        properties:
+          order: "1"
+          cpu_filter: "all-cpus"
+          mem_chunk_size: "big-chunk"
+          loop_count: "25"
+          mem_size: "all"
+          pattern: "butterfly"
+          type: "pmem2"
+      - module: ucsmsdk.mometa.diag.DiagMemoryTest
+        class: DiagMemoryTest
+        properties:
+          order: "2"
+          cpu_filter: "all-cpus"
+          mem_chunk_size: "big-chunk"
+          loop_count: "25"
+          mem_size: "all"
+          pattern: "prbs-killer"
+          type: "pmem2"
+      - module: ucsmsdk.mometa.diag.DiagMemoryTest
+        class: DiagMemoryTest
+        properties:
+          order: "3"
+          cpu_filter: "all-cpus"
+          mem_chunk_size: "big-chunk"
+          loop_count: "25"
+          mem_size: "all"
+          pattern: "killer"
+          type: "pmem2"
+      - module: ucsmsdk.mometa.diag.DiagMemoryTest
+        class: DiagMemoryTest
+        properties:
+          order: "4"
+          cpu_filter: "all-cpus"
+          mem_chunk_size: "big-chunk"
+          loop_count: "25"
+          mem_size: "all"
+          pattern: "prbs-addr"
+          type: "pmem2"
+
