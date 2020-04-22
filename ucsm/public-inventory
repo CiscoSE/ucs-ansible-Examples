@@ -6,6 +6,8 @@ iso_server=<PutAnIPHereForYourWebServer>
 ucsm_password=<YourPasswordForUCS>
 ucsm_user=<LogonNameForAnsibleToUse>
 
+# These are your UCS domains. You can use IPs or DNS names for the 
+# cluster IP of the fabric interconnects as the ucsm_host.
 [GiveMeAName]
 FirstUCSDomain     ucsm_host=<SomeIP>
 SecondUCSDomain    ucsm_host=<SomeOtherIP>
