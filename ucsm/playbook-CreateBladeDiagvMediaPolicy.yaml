@@ -5,4 +5,4 @@
     hosts: FEDLABCore
 
     tasks:
-    - include_tasks: tasks/task-vMediaPolicy-Diag.yml
+    - include_tasks: tasks/task-vMediaPolicy-BladeDiag.yaml
