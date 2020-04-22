@@ -1,0 +1,26 @@
+
+
+- name: Create Diagnostic CD vMedia Policy
+  ucs_managed_objects:
+    hostname: "{{ ucsm_host }}"
+    username: "{{ ucsm_user }}"
+    password: "{{ ucsm_password }}"
+    objects:
+    - module: ucsmsdk.mometa.cimcvmedia.CimcvmediaMountConfigPolicy
+      class: CimcvmediaMountConfigPolicy
+      properties:
+        name: "{{ vmediaBladeDiagPolicyName }}"
+        retry_on_mount_fail: "yes"
+        parent_mo_or_dn: "{{ ucs_Org }}"
+        descr: "VMedia Policy for {{ vmediaBladeDiagFileName }}"
+      children:
+      - module: ucsmsdk.mometa.cimcvmedia.CimcvmediaConfigMountEntry
+        class: CimcvmediaConfigMountEntry
+        properties:
+          mapping_name: "DiagCD"
+          device_type: cdd
+          mount_protocol: http
+          remote_ip_address: "{{ iso_server }}"
+          image_path: "{{ vmediaBladeDiagImagePath }}"
+          image_file_name: "{{ vmediaBladeDiagFileName }}"
+          image_name_variable: none
