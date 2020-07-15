@@ -1,0 +1,73 @@
+{
+    "msg": {
+        "aaaLogin": {
+            "attributes": {
+                "cookie": "",
+                "outCookie": "1594840042/ddc91fb9-aa7f-1a7f-800f-2688ad88c2f8",
+                "outPriv": "admin",
+                "outRefreshPeriod": "600",
+                "outSessionId": "16",
+                "outVersion": "3.0(4q)",
+                "response": "yes"
+            }
+        },
+        "ansible_facts": {
+            "discovered_interpreter_python": "/usr/libexec/platform-python"
+        },
+        "changed": false,
+        "configResolveClass": {
+            "attributes": {
+                "classId": "computeRackUnit",
+                "cookie": "1594840042/ddc91fb9-aa7f-1a7f-800f-2688ad88c2f8",
+                "response": "yes"
+            },
+            "children": [
+                {
+                    "outConfigs": {
+                        "attributes": {},
+                        "children": [
+                            {
+                                "computeRackUnit": {
+                                    "attributes": {
+                                        "adminPower": "policy",
+                                        "assetTag": "Unknown",
+                                        "availableMemory": "229376",
+                                        "bmcResetStatus": "NA",
+                                        "cimcResetReason": "graceful-reboot ",
+                                        "dn": "sys/rack-unit-1",
+                                        "memorySpeed": "1600",
+                                        "model": "UCSC-C240-M3S",
+                                        "name": "UCS C240 M3S",
+                                        "numOfAdaptors": "1",
+                                        "numOfCores": "20",
+                                        "numOfCoresEnabled": "20",
+                                        "numOfCpus": "2",
+                                        "numOfEthHostIfs": "8",
+                                        "numOfFcHostIfs": "2",
+                                        "numOfThreads": "40",
+                                        "operPower": "on",
+                                        "originalUuid": "F280333F-0250-4F87-B7D5-D1A8AF2C8ED6",
+                                        "presence": "equipped",
+                                        "resetComponents": "components",
+                                        "serial": "FCH1827V0T1",
+                                        "serverId": "1",
+                                        "storageResetStatus": "NA",
+                                        "totalMemory": "262144",
+                                        "usrLbl": "",
+                                        "uuid": "F280333F-0250-4F87-B7D5-D1A8AF2C8ED6",
+                                        "vendor": "Cisco Systems Inc",
+                                        "vicResetStatus": "NA"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "elapsed": 6,
+        "failed": false,
+        "response": "OK (unknown bytes)",
+        "status": 200
+    }
+}
