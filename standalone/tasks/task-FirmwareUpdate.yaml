@@ -1,0 +1,20 @@
+---
+    - name: "Configure Upgrade Firmware to {{ firmware_file }}"
+      imc_rest:
+        hostname: '{{imc_host}}'
+        username: '{{imc_user}}'
+        password: '{{imc_password}}'
+        validate_certs: no
+        content: |
+          <configConfMo dn="sys/huu/firmwareUpdater"><inConfig>
+          <huuFirmwareUpdater 
+          remoteIp="{{ firmware_ip }}" 
+          remoteShare="{{ firmware_path }}{{ firmware_file }}" 
+          mapType="{{ firmware_map }}" 
+          stopOnError='yes' 
+          timeOut='120' 
+          verifyUpdate='yes' 
+          updateComponent="{{ firmware_component }}" 
+          updateType='immediate' 
+          bootMedium="vmedia" adminState="trigger" />
+          </inConfig></configConfMo>

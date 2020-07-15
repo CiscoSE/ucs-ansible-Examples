@@ -1,0 +1,15 @@
+- name: "Checking for M3 Server {{ host }}"
+  imc_rest:
+    hostname: "{{ imc_host }}"
+    username: "{{ imc_user }}"
+    password: "{{ imc_password }}"
+    validate_certs: no
+    content: <configResolveClass inHierarchical="false" classId="computeRackUnit"/>
+  register: compute_rack_unit
+
+- name: "Output XML"
+  debug: 
+    msg: "{{ compute_rack_unit | json_query(findmodel) }}"
+  vars:
+    findmodel: 'configResolveClass.[children]'
+
