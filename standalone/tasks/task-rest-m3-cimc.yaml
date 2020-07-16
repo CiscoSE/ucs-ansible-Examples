@@ -1,12 +1,14 @@
-- set_fact:
+- name: "Check if proxy is null"
+  set_fact:
     proxy_env: ''
   when: proxy is undefined
 
-- set_fact:
+- name: "Check if Proxy is needed"
+  set_fact:
     proxy_env: "{{ proxy }}"
   when: proxy is defined
 
-- name: "Checking for M3 Server {{ ansible_host }}"
+- name: "Checking for M3 Server {{inventory_hostname}}"
   imc_rest:
     hostname: "{{ imc_host }}"
     username: "{{ imc_user }}"
@@ -17,10 +19,30 @@
   environment:
           https_proxy: "{{ proxy_env }}" 
 
-
-- name: "Output XML"
-  debug: 
-    msg: "{{ compute_rack_unit | json_query(findmodel) }}"
+- name: "Check for M3 Server"
+  debug:
+    msg: "M3 Server Found"
   vars:
-          findmodel: 'configResolveClass.children[0].outConfigs.children[0].computeRackUnit.attributes.{Model: model}'
+    findmodel: "{{ compute_rack_unit | json_query('configResolveClass.children[0].outConfigs.children[0].computeRackUnit.attributes.model') }}"
+  when: findmodel is regex("-M3(S|SX|$)")
 
+  # With M3 boxes it is always best to reset the CIMC before we firmware upgrade them. 
+  # The next two groups will only be run if we find an M3 to ensure memory is cleared on the CIMC before the firmware update starts. 
+
+- name: "Reseting CIMC"
+  imc_rest:
+    hostname: "{{ imc_host }}"
+    username: "{{ imc_user }}"
+    password: "{{ imc_password }}"
+    validate_certs: no
+    timeout: 30
+    content: |
+      <configConfMo dn='sys/rack-unit-1' >
+      <inConfig>
+      <computeRackUnit adminPower='bmc-reset-immediate'/>
+      </inConfig>
+      </configConfMo>
+  vars:
+    findmodel: "{{ compute_rack_unit | json_query('configResolveClass.children[0].outConfigs.children[0].computeRackUnit.attributes.model') }}"
+  when: findmodel is regex("-M3(S|SX|$)")
+  ignore_errors: yes
