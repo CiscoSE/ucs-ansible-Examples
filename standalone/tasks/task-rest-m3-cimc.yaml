@@ -1,4 +1,12 @@
-- name: "Checking for M3 Server {{ host }}"
+- set_fact:
+    proxy_env: ''
+  when: proxy is undefined
+
+- set_fact:
+    proxy_env: "{{ proxy }}"
+  when: proxy is defined
+
+- name: "Checking for M3 Server {{ ansible_host }}"
   imc_rest:
     hostname: "{{ imc_host }}"
     username: "{{ imc_user }}"
@@ -6,10 +14,13 @@
     validate_certs: no
     content: <configResolveClass inHierarchical="false" classId="computeRackUnit"/>
   register: compute_rack_unit
+  environment:
+          https_proxy: "{{ proxy_env }}" 
+
 
 - name: "Output XML"
   debug: 
     msg: "{{ compute_rack_unit | json_query(findmodel) }}"
   vars:
-    findmodel: 'configResolveClass.[children]'
+          findmodel: 'configResolveClass.children[0].outConfigs.children[0].computeRackUnit.attributes.{Model: model}'
 
