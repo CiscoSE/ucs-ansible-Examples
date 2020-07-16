@@ -6,6 +6,6 @@ RUN yum install epel-release python3 python3-pip git vim -y && \
 pip3 install --upgrade pip
 
 # Install the Ansible and UCS compenents.
-RUN pip3 install ucsmsdk imcsdk xmljson lxml ansible
+RUN pip3 install ucsmsdk imcsdk xmljson lxml ansible jmespath
 
 
