@@ -5,4 +5,4 @@
   hosts: nso_servers
   tasks:
 # - import_tasks: tasks/task-FirmwareUpdate.yaml
-  - import_tasks: tasks/task-rest-m3-cimc.yaml
+  - import_tasks: tasks/task-reset-m3-cimc.yaml
