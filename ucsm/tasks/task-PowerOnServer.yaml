@@ -1,0 +1,11 @@
+- name: Power On Server
+  cisco.ucs.ucs_managed_objects:
+    hostname: "{{ ucsm_host }}"
+    username: "{{ ucsm_user }}"
+    password: "{{ ucsm_password }}"
+    objects:
+    - module: ucsmsdk.mometa.ls.LsPower
+      class: LsPower
+      properties:
+        parent_mo_or_dn: "{{ dn }}"
+        state: admin-up

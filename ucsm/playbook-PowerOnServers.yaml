@@ -1,0 +1,10 @@
+---
+  - name: "Power On Servers"
+    gather_facts: no
+    connection: local
+    hosts: Systems
+
+    tasks:
+    - include_tasks: tasks/task-PowerOnServer.yaml
+ 
+
