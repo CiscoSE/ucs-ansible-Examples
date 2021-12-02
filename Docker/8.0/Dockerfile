@@ -2,7 +2,7 @@
 FROM centos:8
 
 # Requirements for Ansible and the ucs sdks
-RUN yum install epel-release python3 python3-pip git vim -y && \
+RUN yum install epel-release python39 git vim -y && \
 pip3 install --upgrade pip
 
 # Install the Ansible and UCS compenents.
