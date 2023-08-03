@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:1.4
+
+FROM ubuntu:latest
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN <<EOF
+apt update
+apt upgrade -y
+# Things you got to have
+apt install python3-pip -y
+# Things I really like in my container, but are not required
+apt install python3-pip vim git -y
+adduser --system --uid 1000 cisco
+pip3 install --upgrade pip
+pip3 install ansible xmljson lxml ucsmsdk imcsdk
+ansible-galaxy collection install cisco.intersight cisco.aci cisco.nxos
+EOF
