@@ -1,18 +1,37 @@
-# syntax=docker/dockerfile:1.4
-
 FROM ubuntu:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG http_proxy=http://proxy.esl.cisco.com:8080
+ARG https_proxy=http://proxy.esl.cisco.com:8080
 
 RUN <<EOF
 apt update
 apt upgrade -y
 # Things you got to have
-apt install python3-pip -y
+apt install ansible python3-pip -y
+
 # Things I really like in my container, but are not required
-apt install python3-pip vim git -y
+apt install python3-pip vim git net-tools -y
+
+# This is so I can map my container user to my host VM using the same user UID.
 adduser --system --uid 1000 cisco
+
+# I like to be current
 pip3 install --upgrade pip
-pip3 install ansible xmljson lxml ucsmsdk imcsdk
-ansible-galaxy collection install cisco.intersight cisco.aci cisco.nxos
+
+# Required when interacting with JSON or XML Data Structures (Very commonly used)
+pip3 install lxml xmljson --break-system-packages
+
+# A number of NXOS ansible modules require this
+pip3 install paramiko --break-system-packages
+
+# Installed with PIP because Ubuntu has not always been current with ansible version
+pip3 install ansible --break-system-packages
+
+# Only needed when working with Intersight
+ansible-galaxy collection install cisco.intersight
+
+# Only needed if VMWare support in Ansible is required
+ansible-galaxy collection install community.vmware
+
 EOF
