@@ -1,0 +1,18 @@
+---
+- name: "Trigger Firmware Update"
+  ansible.builtin.uri:
+    url: https://{{ cimc_ip }}/nuova
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    use_proxy: "{{ use_proxy }}"
+    return_content: true
+    body: "{{ lookup('template', 'tasks/j2/xml_update_firmware.j2') }}"
+  register: xml_firmware_update
+  tags:
+    - always
+
+- name: "Wait 5 Minutes"
+  ansible.builtin.pause:
+    minutes: 5
+  tags:
+    - always

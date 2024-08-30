@@ -1,0 +1,33 @@
+<configConfMo 
+    dn='sys/huu/firmwareUpdater' 
+    cookie='{{ cimc_token }}'>
+    <inConfig>
+        <huuFirmwareUpdater 
+            dn='sys/huu/firmwareUpdater' 
+            remoteIp='http://{{ huu_iso_host }}'
+            remoteShare='{{ huu_remoteShare }}'
+{% if huu_mapType == "www" %}
+            mapType='www'
+{% elif huu_mapType == "nfs" %}
+            mapType='nfs'
+{% endif %}
+            stopOnError='{{ huu_stopOnError }}'
+            timeOut='{{ huu_timeOut }}'
+            verifyUpdate='{{ huu_verify_update }}'
+            updateComponent='all,hdd'
+            updateType='{{ huu_updateType }}'
+            doForceDown='{{ huu_doForceDown }}'
+            skipMemoryTest='{{ huu_skipMemoryTest }}'
+{% if huu_mountOption is defined %}
+            mountOption='{{ huu_mountOption }}'
+{% endif %}
+{% if huu_username is defined %}
+            username='{{ huu_username }}'
+{% endif %}
+{% if huu_password is defined %}
+            huu_password='{{ huu_password }}'
+{% endif %}
+            cimcSecureBoot='{{ huu_cimcSecureBoot }}'
+            adminState='trigger' />
+    </inConfig>
+</configConfMo>
