@@ -1,7 +1,7 @@
 # Upgrading UCS Firmware for VCenter Based ESXi systems
 
 ## Overview
-This is a domonstration tool showing how to upgrade UCS Firmware using Ansible to put each host in maintenance mode, then trigger a firmware update. If the system completes the firmware in the expected time period, the system is removed from maintenance mode. 
+This is a demonstration tool showing how to upgrade UCS Firmware using Ansible to put each host in maintenance mode, then trigger a firmware update. If the system completes the firmware in the expected time period, the system is removed from maintenance mode. 
 
 Key elements:
     - Only one host is completed at a time as written to avoid failures that impact systems that didn't experience errors. 
