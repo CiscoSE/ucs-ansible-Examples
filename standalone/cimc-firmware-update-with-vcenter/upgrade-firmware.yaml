@@ -1,0 +1,38 @@
+---
+
+- name: Install Firmware Updates for ESXi Hosts
+  hosts: "TheServers"
+  gather_facts: false
+  connection: local
+  serial: 1
+
+  tasks:
+    - name: "Remove ESXi host from service"
+      ansible.builtin.include_tasks: ./tasks/001-enter-maintenance-mode.yaml
+      tags:
+        - enterMaintenanceMode
+        - maintenanceMode
+
+    # A CIMC Token is Required to trigger the Firmware Update
+    - name: "Get Token from CIMC"
+      ansible.builtin.include_tasks: ./tasks/002-get-cimc-token.yaml
+      when: mode == "xml_api"
+      tags:
+        - token
+
+    - name: "Trigger Update using XML API"
+      ansible.builtin.include_tasks: ./tasks/003a-start-firmware-upgrade-XML-API.yaml
+      when: mode == "xml_api" and cimc_token != 'None'
+      tags:
+        - xmlFirmwareUpgrade
+
+    - name: "Track Reboot"
+      ansible.builtin.include_tasks: ./tasks/004-check-esxi-host-status.yaml
+      tags:
+        - statusCheck
+
+    - name: "Return ESXi to Service"
+      ansible.builtin.include_tasks: ./tasks/005-exit-maintenance-mode.yaml
+      tags:
+        - exitMaintenanceMode
+        - maintenanceMode

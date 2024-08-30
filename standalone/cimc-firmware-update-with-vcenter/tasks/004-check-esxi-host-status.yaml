@@ -1,0 +1,16 @@
+- name: "Check ESXi Host Status"
+  community.vmware.vmware_host_facts:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_user }}"
+    password: "{{ lookup('ansible.builtin.env', 'VCENTER_PASSWORD') }}"
+    validate_certs: "{{ validate_certs }}"
+    esxi_hostname: "{{ ansible_host }}"
+  register: host_facts
+  until: |
+    host_facts.ansible_facts.ansible_host_connection_state is defined and
+    host_facts.ansible_facts.ansible_host_connection_state == 'connected'
+  delay: 60
+  retries: 90
+  ignore_errors: true
+  tags:
+    - always

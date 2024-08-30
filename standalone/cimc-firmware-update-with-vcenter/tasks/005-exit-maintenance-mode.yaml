@@ -1,0 +1,12 @@
+- name: Exit Host From Maintenace Mode
+  community.vmware.vmware_maintenancemode:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_user }}"
+    password: "{{ lookup('ansible.builtin.env', 'VCENTER_PASSWORD') }}"
+    validate_certs: "{{ validate_certs }}"
+    esxi_hostname: "{{ ansible_host }}"
+    evacuate: true
+    timeout: 3600
+    state: absent
+  tags:
+    - always
