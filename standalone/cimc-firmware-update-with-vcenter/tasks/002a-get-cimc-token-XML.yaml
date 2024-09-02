@@ -1,0 +1,20 @@
+- name: "Get Token for XML API"
+  ansible.builtin.uri:
+    url: https://{{ cimc_ip }}/nuova
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    use_proxy: "{{ use_proxy }}"
+    return_content: true    # required to return the token
+    body: "<aaaLogin inName='admin' inPassword='{{ lookup('ansible.builtin.env', 'CIMC_PASSWORD') }}'></aaaLogin>"
+  register: ucs_auth_response
+  tags:
+    - always
+
+- name: "Extract Token and Status"
+  ansible.builtin.set_fact:
+    cimc_token: "{{ (ucs_auth_response.content | ansible.utils.from_xml | from_yaml).aaaLogin['@outCookie'] | default('None') }}"
+    cimc_original_version: "{{ (ucs_auth_response.content | ansible.utils.from_xml | from_yaml).aaaLogin['@outVersion'] | default('None') }}"
+    cimc_response: "{{ ucs_auth_response.status }}"
+  tags:
+    - always
+
