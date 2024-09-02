@@ -29,7 +29,7 @@
 
     # A CIMC Token is Required to trigger the Firmware Update
     - name: "Get Token from CIMC"
-      ansible.builtin.include_tasks: ./tasks/002-get-cimc-token.yaml
+      ansible.builtin.include_tasks: ./tasks/002-get-cimc-token-XML.yaml
       when: mode == "xml_api"
       tags:
         - token
