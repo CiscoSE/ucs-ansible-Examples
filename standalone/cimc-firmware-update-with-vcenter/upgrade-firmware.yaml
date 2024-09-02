@@ -28,8 +28,8 @@
         - maintenanceMode
 
     # A CIMC Token is Required to trigger the Firmware Update
-    - name: "Get Token from CIMC"
-      ansible.builtin.include_tasks: ./tasks/002-get-cimc-token-XML.yaml
+    - name: "Get Token from CIMC over XML API"
+      ansible.builtin.include_tasks: ./tasks/002a-get-cimc-token-XML.yaml
       when: mode == "xml_api"
       tags:
         - token
@@ -39,6 +39,12 @@
       when: mode == "xml_api" and cimc_token != 'None'
       tags:
         - xmlFirmwareUpgrade
+    
+    - name: "Get Token from CIMC over Redfish API"
+      ansible.builtin.include_tasks: ./tasks/002b-get-cimc-token-redfish.yaml
+      when: mode == "redfish_api"
+      tags:
+        - token
 
     - name: "Track Reboot"
       ansible.builtin.include_tasks: ./tasks/004-check-esxi-host-status.yaml
