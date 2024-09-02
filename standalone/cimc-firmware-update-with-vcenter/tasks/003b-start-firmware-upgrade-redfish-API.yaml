@@ -1,0 +1,22 @@
+- name: "Trigger Firmware Update"
+  ansible.builtin.uri:
+    url: https://{{ cimc_ip }}/redfish    # Fix Path to redfish
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    use_proxy: "{{ use_proxy }}"
+    return_content: true
+    body: "{{ lookup('template', 'tasks/j2/redfish_update_firmware.j2') }}"
+  register: redfish_firmware_update
+  tags:
+      - always
+
+#################### #################### ####################
+# This gives the vCenter time to detect the ESXi
+# host is disconnected. 
+#################### #################### ####################
+
+- name: "Wait 5 Minutes"
+  ansible.builtin.pause:
+    minutes: 5
+  tags:
+    - always
