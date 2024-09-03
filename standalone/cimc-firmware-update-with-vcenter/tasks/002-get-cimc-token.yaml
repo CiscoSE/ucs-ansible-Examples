@@ -5,7 +5,7 @@
     validate_certs: "{{ validate_certs }}"
     use_proxy: "{{ use_proxy }}"
     return_content: true    # required to return the token
-    body: "<aaaLogin inName='admin' inPassword='{{ lookup('ansible.builtin.env', 'CIMC_PASSWORD') }}'></aaaLogin>"
+    body: "<aaaLogin inName='{{ cimc_logon_name }}' inPassword='{{ lookup('ansible.builtin.env', 'CIMC_PASSWORD') }}'></aaaLogin>"
   register: ucs_auth_response
   tags:
     - always
