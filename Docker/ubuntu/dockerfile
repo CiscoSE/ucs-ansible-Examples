@@ -1,37 +1,43 @@
 FROM ubuntu:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG http_proxy=http://proxy.esl.cisco.com:8080
-ARG https_proxy=http://proxy.esl.cisco.com:8080
+
+# These may not be needed
+ARG http_proxy=http://your.proxy.goes.here:8080
+ARG https_proxy=http://your.proxy.goes.here:8080
+
+# ubuntu automatically creates the 1000 user by defualt, so I use it.
+ARG user=ubuntu
 
 RUN <<EOF
 apt update
 apt upgrade -y
 # Things you got to have
-apt install ansible python3-pip -y
-
+apt install python3-pip python3-venv language-pack-en-base -y
 # Things I really like in my container, but are not required
 apt install vim git net-tools -y
+EOF
 
-# This is so I can map my container user to my host VM using the same user UID.
-adduser --system --uid 1000 cisco
-
-# I like to be current
-pip3 install --upgrade pip
-
-# Required when interacting with JSON or XML Data Structures (Very commonly used)
-pip3 install lxml xmljson --break-system-packages
-
-# A number of NXOS ansible modules require this
-pip3 install paramiko --break-system-packages
-
-# Installed with PIP because Ubuntu has not always been current with ansible version
-pip3 install ansible --break-system-packages
-
-# Only needed when working with Intersight
+USER ${user}
+WORKDIR /home/${user}
+SHELL ["/bin/bash", "-c"]
+RUN <<EOF
+# I make a Python Virtual Environment to Avoid Conflicts
+mkdir /home/${user}/venv
+python3 -m venv /home/${user}/venv
+source /home/${user}/venv/bin/activate
+# Upgrade PIP so we are current
+python3 -m pip install --upgrade pip
+# Required when interacting with JSON or XML Data Structures (Very commonly used with UCS, ACI and others)
+python3 -m pip install lxml xmljson
+# Install Ansible into the Virtual Python Environment for the user (not root)
+python3 -m pip install ansible
+# We use these for NXOS when we use ssh to access devices.
+python3 -m pip install ansible-pylibssh paramiko
+# When Intersight will be used with Ansible this is required.
 ansible-galaxy collection install cisco.intersight
-
 # Only needed if VMWare support in Ansible is required
 ansible-galaxy collection install community.vmware
-
+echo "source /home/${user}/venv/bin/activate" >> /home/${user}/.bashrc
 EOF
+
