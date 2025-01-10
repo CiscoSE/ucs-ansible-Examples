@@ -11,7 +11,7 @@ apt upgrade -y
 apt install ansible python3-pip -y
 
 # Things I really like in my container, but are not required
-apt install python3-pip vim git net-tools -y
+apt install vim git net-tools -y
 
 # This is so I can map my container user to my host VM using the same user UID.
 adduser --system --uid 1000 cisco
