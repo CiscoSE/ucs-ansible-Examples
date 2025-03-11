@@ -1,0 +1,8 @@
+---
+
+- name: Configure C Series Servers with vMedia
+  gather_facts: no
+  connection: local
+  hosts: all
+  tasks:
+  - import_tasks: tasks/task-FirmwareUpdate.yaml
