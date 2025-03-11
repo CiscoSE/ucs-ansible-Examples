@@ -1,0 +1,23 @@
+---
+    - name: Configure vMedia
+      imc_rest:
+        hostname: '{{ imc_host }}'
+        username: '{{ imc_user }}'
+        password: "{{ ansible_password }}"
+        validate_certs: no
+        content: |
+          <configConfMo dn="sys/huu/firmwareUpdater">
+          <inConfig>
+          <huuFirmwareUpdater
+            remoteIp="{{ firmware_ip }}"
+            remoteShare="{{ firmware_path }}{{ firmware_file }}"
+            mapType="{{ firmware_map }}"
+            stopOnError='yes'
+            timeOut='120'
+            updateComponent='all,hdd'
+            updateType='{{ update_type | default ("immediate") }}'
+            bootMedium="vmedia"
+            adminState="trigger" />
+          </inConfig>
+          </configConfMo>
+      delegate_to: local
