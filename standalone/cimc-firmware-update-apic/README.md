@@ -4,7 +4,7 @@ This Ansible script provides a fast easy method for upgrading the firmware on th
 ## Concept of Operation
 This script generates an XML API call to the CIMC of the APIC directing it towards an ISO staged on a web server. This example only uses an open web server, but could be easily modified to incorporate authentication, which is supported by the API. The example only provides for HTTP connections from the CIMC to the web server.
 
-The script will upgrade as many devices as it finds in the inventory, and it does not wait for completion of the firmware on the first device before moving on to the second device. It is advisable to comment out all but one APIC when running this script.
+The script will upgrade as many devices as it finds in the inventory, and it does not wait for completion of the firmware on the first device before moving on to the second device. The APIC will usually reboot within a minute or two of running this script. It is advisable to comment out all but one APIC when running this script.
 
 The script today requires the password to be entered when the script is run using the -k switch for the ansible-playbook command. The admin password of the CIMC is used to authenticate.
 
